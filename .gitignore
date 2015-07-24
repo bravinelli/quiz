@@ -73,3 +73,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# añadimos la excepcion del fichero de la BD
+quiz.sqlite
