@@ -7,8 +7,10 @@ router.get('/', function(req, res) {
   res.render('index', { title: 'Quiz' });
 });
 
-//Definicio de rutas de quizes
+// Autoload de comandos con :quizId
+router.param('quizId', quizController.load);
 
+//Definicio de rutas de quizes
 //Esta ruta da acceso al listado completo de preguntas
 router.get('/quizes', quizController.index);
 
