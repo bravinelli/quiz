@@ -7,9 +7,20 @@ router.get('/', function(req, res) {
   res.render('index', { title: 'Quiz' });
 });
 
-router.get('/quizes/question',quizController.question);
+//Definicio de rutas de quizes
 
-router.get('/quizes/answer',quizController.answer);
+//Esta ruta da acceso al listado completo de preguntas
+router.get('/quizes', quizController.index);
+
+// Esta rutas son las nuevas primitivas del interfaz rest
+// la primera es equivalente a la question anterior pero más general
+// para poder acceder una de 'n' preguntas diferentes
+// la segunda es equivalente a la 'answer' anterior pero para consultar si la
+// respuesta dada es correcta y corresponde a la pregunta 'n'
+
+router.get('/quizes/:quizId(\\d+)',quizController.show);
+
+router.get('/quizes/:quizId(\\d+)/answer',quizController.answer);
 
 router.get('/author',function(req,res) {
   res.render('author');
