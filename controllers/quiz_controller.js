@@ -23,7 +23,7 @@ exports.index = function(req,res){
   console.log ("valor de patron: "+patron);
   console.log ("valor de query.search: "+req.query.search);
 
-  models.Quiz.findAll({where: ["pregunta like ?", patron]}).then(function(quizes){
+  models.Quiz.findAll({where: ["pregunta like ?", patron], order:"pregunta"}).then(function(quizes){
     res.render('quizes/index',{quizes : quizes});
   }).catch(function(error){next(error);})
 };
