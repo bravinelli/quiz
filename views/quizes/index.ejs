@@ -3,3 +3,13 @@
   <tr><td><a href="quizes/<%= quizes[i].id %>"><%= quizes[i].pregunta %></a></td></tr>
 <% } %>
 </table></div>
+<div>
+<!-- Para el ejercicio final del modulo 7 inserto el formulario para filtrar
+las preguntas -->
+
+<form method="get" action="/quizes">
+Filtro preguntas<p>
+  <input type="text" name="search" value="">
+  <input type="submit" value="Enviar">
+</form>
+</div>
