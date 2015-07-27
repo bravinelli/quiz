@@ -15,7 +15,15 @@ exports.load = function (req,res,next,quizId) {
 // GET /QUIZES
 
 exports.index = function(req,res){
-  models.Quiz.findAll().then(function(quizes){
+
+// Adapto la cadena de busqueda generando una variable con el patron a buscar
+  var patron = "%"+(req.query.search || "")+"%";
+  patron= patron.replace(/\s+/g,"%");
+// Esto fue preciso para la depuracion correcta de la app
+  console.log ("valor de patron: "+patron);
+  console.log ("valor de query.search: "+req.query.search);
+
+  models.Quiz.findAll({where: ["pregunta like ?", patron], order:"pregunta"}).then(function(quizes){
     res.render('quizes/index',{quizes : quizes});
   }).catch(function(error){next(error);})
 };
