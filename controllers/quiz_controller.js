@@ -22,7 +22,6 @@ exports.index = function(req,res){
 // Esto fue preciso para la depuracion correcta de la app
   console.log ("valor de patron: "+patron);
   console.log ("valor de query.search: "+req.query.search);
-
   models.Quiz.findAll({where: ["pregunta like ?", patron], order:"pregunta"}).then(function(quizes){
     res.render('quizes/index',{quizes : quizes});
   }).catch(function(error){next(error);})
