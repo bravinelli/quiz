@@ -18,12 +18,13 @@ exports.index = function(req,res){
 
 // Adapto la cadena de busqueda generando una variable con el patron a buscar
   var patron = "%"+(req.query.search || "")+"%";
+  var tema = req.query.tema || "%";
   patron= patron.replace(/\s+/g,"%");
 // Esto fue preciso para la depuracion correcta de la app
   console.log ("valor de patron: "+patron);
   console.log ("valor de query.search: "+req.query.search);
 
-    models.Quiz.findAll({where: ["pregunta like ?", patron], order:"pregunta"}).then(function(quizes){
+    models.Quiz.findAll({where: ["pregunta like ? and tema like ?", patron,tema], order:"pregunta"}).then(function(quizes){
     res.render('quizes/index',{quizes : quizes, errors: []});
   }).catch(function(error){next(error);})
 };
@@ -61,7 +62,7 @@ exports.create=function(req,res){
           res.render('quizes/new', {quiz: quiz, errors: err.errors});
         } else {
           quiz // save: guarda en DB campos pregunta y respuesta de quiz
-          .save({fields: ["pregunta", "respuesta"]})
+          .save({fields: ["pregunta", "respuesta", "tema"]})
           .then( function(){ res.redirect('/quizes')})
         }      // res.redirect: Redirección HTTP a lista de preguntas
       }
@@ -78,6 +79,7 @@ exports.edit = function(req,res){
 exports.update = function(req, res) {
   req.quiz.pregunta  = req.body.quiz.pregunta;
   req.quiz.respuesta = req.body.quiz.respuesta;
+  req.quiz.tema = req.body.quiz.tema;
 
   req.quiz
   .validate()
@@ -87,7 +89,7 @@ exports.update = function(req, res) {
         res.render('quizes/edit', {quiz: req.quiz, errors: err.errors});
       } else {
         req.quiz     // save: guarda campos pregunta y respuesta en DB
-        .save( {fields: ["pregunta", "respuesta"]})
+        .save( {fields: ["pregunta", "respuesta","tema"]})
         .then( function(){ res.redirect('/quizes');});
       }     // Redirección HTTP a lista de preguntas (URL relativo)
     }
